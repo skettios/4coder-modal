@@ -34,6 +34,7 @@ bind_shared_mode(Bind_Helper *context)
         bind(context, key_del, MDFR_SHIFT, delete_word);
         bind(context, key_back, MDFR_SHIFT, backspace_word);
         bind(context, key_esc, MDFR_NONE, modal_enter_global);
+        bind(context, 'E', MDFR_CTRL, exit_4coder);
     }
     end_map(context);
     
@@ -79,7 +80,6 @@ bind_global_mode(Bind_Helper *context)
         bind(context, 'r', MDFR_NONE, modal_enter_replace);
         bind(context, 'd', MDFR_NONE, delete_range);
         bind(context, 'D', MDFR_NONE, delete_line);
-        bind(context, 'E', MDFR_NONE, exit_4coder);
         bind(context, 'f', MDFR_NONE, search);
         bind(context, 'F', MDFR_NONE, list_all_locations);
         bind(context, 'g', MDFR_NONE, goto_line);
