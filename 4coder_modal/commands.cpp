@@ -33,6 +33,25 @@ CUSTOM_COMMAND_SIG(modal_enter_insert)
     set_theme_colors(app, colors, ArrayCount(colors));
 }
 
+CUSTOM_COMMAND_SIG(modal_enter_replace)
+{
+    set_keymap(app, mapid_replace);
+    
+    Theme_Color colors[] = {
+        { Stag_Cursor, 0xff005ffd },
+        { Stag_At_Cursor, 0xff0f8dfc },
+        { Stag_Margin_Active, 0xff005ffd },
+        };
+    
+    set_theme_colors(app, colors, ArrayCount(colors));
+    }
+
+CUSTOM_COMMAND_SIG(modal_live_replace)
+{
+    exec_command(app, delete_char);
+    exec_command(app, write_character);
+}
+
 CUSTOM_COMMAND_SIG(modal_write_and_enter_insert)
 {
     exec_command(app, write_and_auto_tab);

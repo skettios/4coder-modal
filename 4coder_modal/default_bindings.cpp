@@ -33,6 +33,7 @@ bind_shared_mode(Bind_Helper *context)
         bind(context, key_back, MDFR_NONE, backspace_char);
         bind(context, key_del, MDFR_SHIFT, delete_word);
         bind(context, key_back, MDFR_SHIFT, backspace_word);
+        bind(context, key_esc, MDFR_NONE, modal_enter_global);
     }
     end_map(context);
 }
@@ -52,6 +53,7 @@ bind_global_mode(Bind_Helper *context)
         bind(context, ' ', MDFR_NONE, set_mark);
         bind(context, 'b', MDFR_NONE, build_in_build_panel);
         bind(context, 'c', MDFR_NONE, copy);
+        bind(context, 'r', MDFR_NONE, modal_enter_replace);
         bind(context, 'd', MDFR_NONE, delete_range);
         bind(context, 'D', MDFR_NONE, delete_line);
         bind(context, 'E', MDFR_NONE, exit_4coder);
@@ -106,10 +108,24 @@ bind_insert_mode(Bind_Helper *context)
         inherit_map(context, mapid_shared);
         
         bind_vanilla_keys(context, write_character);
-        bind(context, key_esc, MDFR_NONE, modal_enter_global);
 		bind(context, '\n', MDFR_NONE, write_and_auto_tab);
         bind(context, '\t', MDFR_NONE, word_complete);
-        bind(context, '{', MDFR_NONE, write_and_auto_tab);
-    }
+        bind(context, '}', MDFR_NONE, write_and_auto_tab);
+        bind(context, ')', MDFR_NONE, write_and_auto_tab);
+        bind(context, ']', MDFR_NONE, write_and_auto_tab);
+        bind(context, ';', MDFR_NONE, write_and_auto_tab);
+        bind(context, '#', MDFR_NONE, write_and_auto_tab);
+        }
+    end_map(context);
+}
+
+static void
+bind_replace_mode(Bind_Helper *context)
+{
+    begin_map(context, mapid_replace);
+    {
+        inherit_map(context, mapid_shared);
+        bind_vanilla_keys(context, modal_live_replace);
+        }
     end_map(context);
 }

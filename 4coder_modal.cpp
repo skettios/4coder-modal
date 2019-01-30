@@ -175,6 +175,7 @@ get_bindings(void *data, int32_t size)
     bind_shared_mode(context);
     bind_global_mode(context);
     bind_insert_mode(context);
+    bind_replace_mode(context);
     
     int32_t result = end_bind_helper(context);
     return result;
