@@ -1,7 +1,8 @@
-enum modal_mapid
+			enum modal_mapid
 {
     mapid_shared = default_maps_count,
     mapid_insert,
+	mapid_replace,
 };
 
 #include "commands.cpp"
@@ -24,8 +25,8 @@ bind_shared_mode(Bind_Helper *context)
         bind(context, key_f11, MDFR_SHIFT, toggle_fullscreen);
         bind(context, key_mouse_wheel, MDFR_NONE, mouse_wheel_scroll);
         bind(context, key_mouse_wheel, MDFR_SHIFT, mouse_wheel_change_face_size);
-		bind(context, key_left, MDFR_SHIFT, seek_whitespace_left);
-        bind(context, key_right, MDFR_SHIFT, 			seek_whitespace_right);
+		bind(context, key_left, MDFR_SHIFT, seek_alphanumeric_or_camel_left);
+        bind(context, key_right, MDFR_SHIFT, seek_alphanumeric_or_camel_right);
         bind(context, key_up, MDFR_SHIFT, seek_whitespace_up_end_line);
         bind(context, key_down, MDFR_SHIFT, seek_whitespace_down_end_line);
         bind(context, key_del, MDFR_NONE, delete_char);
@@ -47,8 +48,7 @@ bind_global_mode(Bind_Helper *context)
         bind(context, 'o', MDFR_NONE, interactive_open_or_new);
         bind(context, 'n', MDFR_NONE, interactive_new);
         bind(context, ';', MDFR_NONE, change_active_panel);
-
-        bind(context, '\n', MDFR_SHIFT, write_and_auto_tab);
+        bind(context, 'j', MDFR_NONE, list_all_functions_all_buffers_lister);
         bind(context, ' ', MDFR_NONE, set_mark);
         bind(context, 'b', MDFR_NONE, build_in_build_panel);
         bind(context, 'c', MDFR_NONE, copy);
@@ -56,9 +56,10 @@ bind_global_mode(Bind_Helper *context)
         bind(context, 'D', MDFR_NONE, delete_line);
         bind(context, 'E', MDFR_NONE, exit_4coder);
         bind(context, 'f', MDFR_NONE, search);
+        bind(context, 'F', MDFR_NONE, list_all_locations);
         bind(context, 'g', MDFR_NONE, goto_line);
         bind(context, 'K', MDFR_NONE, kill_buffer);
-        bind(context, 's', MDFR_NONE, save);
+        bind(context, 'w', MDFR_NONE, save);
         bind(context, 'v', MDFR_NONE, paste_and_indent);
         bind(context, 'V', MDFR_NONE, paste_next_and_indent);
         bind(context, 'x', MDFR_NONE, cut);
@@ -71,6 +72,7 @@ bind_global_mode(Bind_Helper *context)
         bind(context, '.', MDFR_NONE, goto_next_jump_sticky);
         bind(context, '<', MDFR_NONE, goto_first_jump_sticky);
         bind(context, '?', MDFR_NONE, comment_line_toggle);
+        bind(context, '{', MDFR_NONE, modal_write_and_insert_complete);
         }
     end_map(context);
     
@@ -106,6 +108,8 @@ bind_insert_mode(Bind_Helper *context)
         bind_vanilla_keys(context, write_character);
         bind(context, key_esc, MDFR_NONE, modal_enter_global);
 		bind(context, '\n', MDFR_NONE, write_and_auto_tab);
+        bind(context, '\t', MDFR_NONE, word_complete);
+        bind(context, '{', MDFR_NONE, write_and_auto_tab);
     }
     end_map(context);
 }

@@ -1,13 +1,12 @@
 void set_keymap(Application_Links *app, int map)
 {
-    unsigned int access = AccessAll;
-    View_Summary view = get_active_view(app, access);
-    Buffer_Summary buffer = get_buffer(app, view.buffer_id, access);
+     View_Summary view = get_active_view(app, AccessAll);
+    Buffer_Summary buffer = get_buffer(app, view.buffer_id, AccessAll);
 
     if (buffer.exists)
         buffer_set_setting(app, &buffer, BufferSetting_MapID, map);
 }
-
+ 
 CUSTOM_COMMAND_SIG(modal_enter_global)
 {
     set_keymap(app, mapid_global);
@@ -32,4 +31,16 @@ CUSTOM_COMMAND_SIG(modal_enter_insert)
     };
     
     set_theme_colors(app, colors, ArrayCount(colors));
+}
+
+CUSTOM_COMMAND_SIG(modal_write_and_enter_insert)
+{
+    exec_command(app, write_and_auto_tab);
+    exec_command(app, modal_enter_insert);
+}
+
+CUSTOM_COMMAND_SIG(modal_write_and_insert_complete)
+{
+    exec_command(app, open_long_braces);
+    exec_command(app, modal_enter_insert);
 }
