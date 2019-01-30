@@ -36,6 +36,27 @@ bind_shared_mode(Bind_Helper *context)
         bind(context, key_esc, MDFR_NONE, modal_enter_global);
     }
     end_map(context);
+    
+    begin_map(context, default_lister_ui_map);
+    {
+        bind_vanilla_keys(context, lister__write_character);
+        bind(context, key_esc, MDFR_NONE, lister__quit);
+        bind(context, '\n', MDFR_NONE, lister__activate);
+        bind(context, '\t', MDFR_NONE, lister__activate);
+        bind(context, key_back, MDFR_NONE, lister__backspace_text_field);
+        bind(context, key_up, MDFR_NONE, lister__move_up);
+        bind(context, 'k', MDFR_ALT, lister__move_up);
+        bind(context, key_page_up, MDFR_NONE, lister__move_up);
+        bind(context, key_down, MDFR_NONE, lister__move_down);
+        bind(context, 'j', MDFR_ALT, lister__move_down);
+        bind(context, key_page_down, MDFR_NONE, lister__move_down);
+        bind(context, key_mouse_wheel, MDFR_NONE, lister__wheel_scroll);
+        bind(context, key_mouse_left, MDFR_NONE, lister__mouse_press);
+        bind(context, key_mouse_left_release, MDFR_NONE, lister__mouse_release);
+        bind(context, key_mouse_move, MDFR_NONE, lister__repaint);
+        bind(context, key_animate, MDFR_NONE, lister__repaint);
+    }
+    end_map(context);
 }
 
 static void
@@ -52,6 +73,8 @@ bind_global_mode(Bind_Helper *context)
         bind(context, 'j', MDFR_NONE, list_all_functions_all_buffers_lister);
         bind(context, ' ', MDFR_NONE, set_mark);
         bind(context, 'b', MDFR_NONE, build_in_build_panel);
+        bind(context, 'q', MDFR_NONE, query_replace);
+        bind(context, 'Q', MDFR_NONE, query_replace_identifier);
         bind(context, 'c', MDFR_NONE, copy);
         bind(context, 'r', MDFR_NONE, modal_enter_replace);
         bind(context, 'd', MDFR_NONE, delete_range);
@@ -77,28 +100,7 @@ bind_global_mode(Bind_Helper *context)
         bind(context, '{', MDFR_NONE, modal_write_and_insert_complete);
         }
     end_map(context);
-    
-    begin_map(context, default_lister_ui_map);
-    {
-        bind_vanilla_keys(context, lister__write_character);
-        bind(context, key_esc, MDFR_NONE, lister__quit);
-        bind(context, '\n', MDFR_NONE, lister__activate);
-        bind(context, '\t', MDFR_NONE, lister__activate);
-        bind(context, key_back, MDFR_NONE, lister__backspace_text_field);
-        bind(context, key_up, MDFR_NONE, lister__move_up);
-        bind(context, 'k', MDFR_ALT, lister__move_up);
-        bind(context, key_page_up, MDFR_NONE, lister__move_up);
-        bind(context, key_down, MDFR_NONE, lister__move_down);
-        bind(context, 'j', MDFR_ALT, lister__move_down);
-        bind(context, key_page_down, MDFR_NONE, lister__move_down);
-        bind(context, key_mouse_wheel, MDFR_NONE, lister__wheel_scroll);
-        bind(context, key_mouse_left, MDFR_NONE, lister__mouse_press);
-        bind(context, key_mouse_left_release, MDFR_NONE, lister__mouse_release);
-        bind(context, key_mouse_move, MDFR_NONE, lister__repaint);
-        bind(context, key_animate, MDFR_NONE, lister__repaint);
     }
-    end_map(context);
-}
 
 static void
 bind_insert_mode(Bind_Helper *context)
@@ -126,6 +128,6 @@ bind_replace_mode(Bind_Helper *context)
     {
         inherit_map(context, mapid_shared);
         bind_vanilla_keys(context, modal_live_replace);
-        }
-    end_map(context);
+    }
+        end_map(context);
 }

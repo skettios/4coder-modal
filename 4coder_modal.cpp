@@ -11,6 +11,7 @@ START_HOOK_SIG(modal_start)
     
     exec_command(app, modal_enter_global);
     exec_command(app, toggle_fullscreen);
+    exec_command(app, suppress_mouse);
     
     if (global_config.automatically_load_project){
         load_project(app);
@@ -167,8 +168,8 @@ setup_hooks(Bind_Helper *context)
 extern "C" int32_t
 get_bindings(void *data, int32_t size)
 {
-    Bind_Helper context_ = begin_bind_helper(data, size);
-    Bind_Helper *context = &context_;
+    Bind_Helper _context = begin_bind_helper(data, size);
+    Bind_Helper *context = &_context;
     
     setup_hooks(context);
     
